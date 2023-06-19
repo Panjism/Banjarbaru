@@ -12,28 +12,6 @@ import styles from '@styles/Home.module.scss';
 const DEFAULT_CENTER = [-3.457242, 114.810318];
 
 export default function Home() {
-  const [geojsonData, setGeojsonData] = useState(null);
-
-  useEffect(() => {
-    async function fetchGeojsonData() {
-      try {
-        const response = await fetch(
-          'https://nominatim.openstreetmap.org/search?format=geojson&q=Banjarbaru'
-        );
-        if (response.ok) {
-          const data = await response.json();
-          setGeojsonData(data);
-        } else {
-          console.error('Failed to fetch GeoJSON data');
-        }
-      } catch (error) {
-        console.error('Error while fetching GeoJSON data:', error);
-      }
-    }
-
-    fetchGeojsonData();
-  }, []);
-
   return (
     <Layout>
       <Head>
@@ -53,17 +31,10 @@ export default function Home() {
                   url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                   attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
                 />
-                {geojsonData && (
-                  <GeoJSON
-                    data={geojsonData}
-                    style={{ color: '#FF0000', fillColor: '#FF0000', fillOpacity: 0.1, fill: 1 }}
-                  />
-                )}
-                <Marker position={DEFAULT_CENTER}>
-                  <Popup>
-                    Ini Banjarbaru. <br /> Keren.
-                  </Popup>
-                </Marker>
+                <GeoJSON
+                  url='leaflet/geojson/Banjarbaru.geojson'
+                  style={{ color: '#FF0000', fillColor: '#FF0000', fillOpacity: 0.1, fill: 1 }}
+                />
               </>
             )}
           </Map>
